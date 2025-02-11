@@ -2,15 +2,6 @@
 #include "drivlib.h"
 #include "stdlib.h"
 
-static void dump_str_addr(char *addr)
-{
-    print("@ 0x");
-    write_hex((unsigned int)addr);
-    print(" >> '");
-    print(addr);
-    print("'\n");
-}
-
 static void print_shell_info(void)
 {
     print(SHELL_NAME);
@@ -19,26 +10,22 @@ static void print_shell_info(void)
     print("\n");
 }
 
-static void mem_alloc_test(void)
+static void print_help(void)
 {
-    char *str = (char *)mem_alloc(sizeof(char) * 8);
-    char *str2 = (char *)mem_alloc(sizeof(char) * 20);
-
-    s_strcpy(str, "HELLO");
-    s_strcpy(str2, "WORLD from JOS");
-    dump_str_addr(str);
-    dump_str_addr(str2);
+    print("EXIT             Halt the CPU\n");
+    print("SHELl            Print shell version\n");
+    print("KB.LAY <code>    Changes keyboard layout\n");
 }
 
 void on_line(char *str)
 {
     if (!s_strcmp(str, "EXIT")) {
-        print("CIAO");
+        print("CPU halted");
         asm volatile("hlt");
     }
     if (!s_strcmp(str, "SHELL"))
         print_shell_info();
-    if (!s_strcmp(str, "ALLOC.TEST"))
-        mem_alloc_test();
+    if (!s_strcmp(str, "HELP"))
+        print_help();
     print("> ");
 }
