@@ -28,6 +28,7 @@ following features at some point:**
         - [ ] User mode
         - [ ] Kernel mode
         - [ ] File system
+        - [ ] APM (Advanced Power Mgmt) support
     - [-] Mini shell
 - [ ] File system
     - [ ] Head table
