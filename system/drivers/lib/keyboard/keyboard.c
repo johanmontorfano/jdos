@@ -2,16 +2,9 @@
 #include "interrupts.h"
 
 static t_kb_nl_handler nl_handler;
-/// AZERTY-based
-static const char ascii_chars[] = {
-    'A', 'Z', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // 0x10 .. 0x1B
-    '?', '?', '?', '?',
-    'Q', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', // 0x1E .. 0x27
-    '?', '?', '?', '?',
-    'W', 'X', 'C', 'V', 'B', 'N', '?', '.', '/'      // 0x2C .. 0x35
-};
-unsigned int alloc_size = 0;
 char key_buffer[512];
+int alloc_size = 0;
+int kb_layout = KB_LAYOUT_QWERTY;
 
 static void keycback(t_cpu_reg regs)
 {
@@ -27,8 +20,8 @@ static void keycback(t_cpu_reg regs)
         nl_handler(key_buffer);
         alloc_size = 0;
         key_buffer[0] = 0;
-    } else if (scancode - 0x10 >= 0 && scancode - 0x10 <= 0x25) {
-        print_buf[0] = ascii_chars[scancode - 0x10];
+    } else {
+        print_buf[0] = get_keyboard_layout(kb_layout)[scancode - 1];
         print(print_buf);
         key_buffer[alloc_size] = print_buf[0];
         alloc_size += 1;

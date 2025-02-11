@@ -1,6 +1,7 @@
 SRC			=	lib/ports.c \
 				lib/screen.c \
-				lib/keyboard.c
+				lib/keyboard/keyboard.c \
+				lib/keyboard/layouts.c
 
 OBJ			=	$(SRC:.c=.o)
 
