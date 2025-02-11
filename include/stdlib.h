@@ -2,6 +2,9 @@
     #define MOD_STANDARD
     #define MEM_PAGE_SIZE 0x1000
 
+int c_isalphanum(char c);
+int c_isalpha(char c);
+int c_isnum(char c);
 int s_strlen(char *str);
 int s_strcmp(char *s1, char *s2);
 void s_strcpy(char *dest, char *src);

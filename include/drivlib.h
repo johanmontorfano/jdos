@@ -11,6 +11,9 @@
     #define KB_BACKSPACE 0x0E
     #define KB_ENTER 0x1C
 
+    #define KB_LAYOUT_AZERTY 0
+    #define KB_LAYOUT_QWERTY 1
+
     #define REG_SCREEN_CTRL 0x3d4
     #define REG_SCREEN_DATA 0x3d5
 
@@ -22,6 +25,7 @@ int cursor_get_row(int offset);
 int cursor_get_col(int offset);
 int cursor_get(void);
 unsigned char readb_port(unsigned short port);
+const char *get_keyboard_layout(int code);
 unsigned short readw_port(unsigned short port);
 void writeb_port(unsigned short port, unsigned char data);
 void writew_port(unsigned short port, unsigned short data);
@@ -31,6 +35,6 @@ void print_at(char *str, int row, int col);
 void cursor_set(int pos);
 void keyboard_init(t_kb_nl_handler handler);
 void remove_last_char(void);
-unsigned char *readline(void);
+void update_kb_layout(int code);
 
 #endif
