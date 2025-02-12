@@ -12,10 +12,11 @@ static void print_shell_info(void)
 
 static void print_help(void)
 {
-    print("EXIT             Halt the CPU\n");
-    print("SHELl            Print shell version\n");
-    print("KB.LAY <code>    Changes keyboard layout\n");
-    print("KB.GLAY          Get all available layouts\n");
+    print("EXIT                 Halt the CPU\n");
+    print("CLEAR                Clear the screen\n");
+    print("SHELL                Print shell version\n");
+    print("KEY.LAY <code>       Changes keyboard layout\n");
+    print("KEY.GLAY             Get all available layouts\n");
 }
 
 static void print_layouts(void)
@@ -40,5 +41,7 @@ void on_line(char *str)
         print_layouts();
     if (!s_strcmp(args[0], "KEY.LAY"))
         update_kb_layout(atoi(args[1]));
+    if (!s_strcmp(args[0], "CLEAR"))
+        clear_screen();
     print("> ");
 }

@@ -18,7 +18,7 @@ static void keycback(t_cpu_reg regs)
     if (scancode == 57)
         vk_char = ' ';
     if (scancode == 42)
-        kb_shift_pressed = 1;
+        kb_shift_pressed = !kb_shift_pressed;
     if (scancode == KB_BACKSPACE && alloc_size > 0) {
         alloc_size -= 1;
         key_buffer[alloc_size] = 0;
