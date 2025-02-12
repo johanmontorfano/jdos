@@ -10,6 +10,8 @@
 
     #define KB_BACKSPACE 0x0E
     #define KB_ENTER 0x1C
+    #define KB_VK_SHIFT 0xF2
+    #define KB_VK_CAPSL 0xF3
 
     #define KB_LAYOUT_AZERTY 0
     #define KB_LAYOUT_QWERTY 1

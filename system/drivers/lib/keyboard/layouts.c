@@ -6,7 +6,7 @@ static const char ascii_french_legacy_azerty[] = {
     '1',                                            // 1
     '2',                                            // 2
     '3',                                            // 3
-    '4',                                           // 4
+    '4',                                            // 4
     '5',                                            // 5
     '6',                                            // 6
     '7',                                            // 7
@@ -43,7 +43,7 @@ static const char ascii_french_legacy_azerty[] = {
     'm',
     '?',                                            // OEM 3 (ù in AZERTY)
     '*',                                            // OEM 7 (* in AZERTY)
-    '?',                                            // L-SHIFT (unchanged)
+    KB_VK_SHIFT,                                    // L-SHIFT (unchanged)
     '<',                                            // OEM 5 (< in AZERTY)
     'w',
     'x',
@@ -55,11 +55,11 @@ static const char ascii_french_legacy_azerty[] = {
     ';',                                            // OEM PERIOD (; in AZERTY)
     ':',                                            // OEM 2 (: in AZERTY)
     '!',                                            // OEM 8 (! in AZERTY)
-    '?',                                            // R-SHIFT (unchanged)
+    KB_VK_SHIFT,                                    // R-SHIFT (unchanged)
     '?',                                            // MULTIPLY (unchanged)
     '?',                                            // L-MENU (unchanged)
     ' ',                                            // SPACE
-    '?',                                            // CAPS LOCK (unchanged)
+    KB_VK_CAPSL,                                    // CAPS LOCK (unchanged)
     '?',                                            // F1
     '?',                                            // F2
     '?',                                            // F3
