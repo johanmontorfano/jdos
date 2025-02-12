@@ -6,6 +6,7 @@ KERNEL_SRC			=	system/kernel/src/main.o \
 						$(wildcard system/kernel/src/shell/*.o) \
 						$(wildcard system/kernel/src/k*.o) \
 						$(wildcard system/drivers/lib/*.o) \
+						$(wildcard system/drivers/lib/keyboard/*.o) \
 						$(wildcard clib/lib/*.o) \
 						bootloader/kernel32.o \
 						$(wildcard system/kernel/asm/*.o)
