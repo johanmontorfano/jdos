@@ -26,7 +26,7 @@ load_kernel:
     call print_nl
 
     mov bx, KERNEL_OFFSET
-    mov dh, 32                  ; Kernel size
+    mov dh, 44                  ; Kernel size
     mov dl, [BOOT_DRIVE]
     call disk_load
     ret
