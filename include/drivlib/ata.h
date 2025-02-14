@@ -72,8 +72,9 @@
     #define ATA_ERR_6 (1 << 7)                  // Uncorrectable data error
     #define ATA_ERR_7 (1 << 8)                  // Bad block detected
 
-    #define ATA_DCR 0x3F6
-    #define ATA_AS 0x376
+    #define ATA_FLUSH 0xE7
+    #define ATA_PIO_READ 0x20
+    #define ATA_PIO_WRITE 0x30
 
     #include "ctypes.h"
 
