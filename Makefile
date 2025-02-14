@@ -6,6 +6,7 @@ KERNEL_SRC			=	system/kernel/src/main.o \
 						$(wildcard system/kernel/src/shell/*.o) \
 						$(wildcard system/kernel/src/k*.o) \
 						$(wildcard system/drivers/lib/*.o) \
+						$(wildcard system/drivers/lib/disks/ata/*.o) \
 						$(wildcard system/drivers/lib/keyboard/*.o) \
 						$(wildcard clib/lib/*.o) \
 						bootloader/kernel32.o \
@@ -18,7 +19,11 @@ IMAGE_SRC			=	bootloader/bootsector.bin \
 
 IMAGE_NAME			=	josimg.bin
 
-all: $(KERNEL_NAME) $(IMAGE_NAME) clean
+DISK_NAME			=	hdd.bin
+
+DISK_SIZE			=	100M
+
+all: $(KERNEL_NAME) $(IMAGE_NAME) $(DISK_NAME) clean
 
 re: fclean all
 
@@ -38,8 +43,11 @@ $(KERNEL_NAME).elf: dependencies
 $(IMAGE_NAME): $(IMAGE_SRC)
 	cat $^ > $@
 
+$(DISK_NAME):
+	qemu-img create -f raw $(DISK_NAME) $(DISK_SIZE)
+
 run:
-	qemu-system-x86_64 -fda $(IMAGE_NAME)
+	qemu-system-x86_64 -fda $(IMAGE_NAME) -hda $(DISK_NAME)
 
 debug: $(KERNEL_NAME).elf clean
 	qemu-system-x86_64 -s -fda $(IMAGE_NAME) -d guest_errors,int &
