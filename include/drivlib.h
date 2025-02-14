@@ -1,6 +1,5 @@
 #ifndef KERNEL_DRIV
     #define KERNEL_DRIV
-
     #define VIDEO_HEX 0xb8000
     #define VIDEO_BUF ((volatile char *)0xb8000)
     #define MAX_ROWS 25
@@ -19,6 +18,8 @@
     #define REG_SCREEN_CTRL 0x3d4
     #define REG_SCREEN_DATA 0x3d5
 
+    #include "ctypes.h"
+
 typedef void (* t_kb_nl_handler)(char *);
 
 int writec(char c, int col, int row);
@@ -26,11 +27,13 @@ int d2off(int col, int row);
 int cursor_get_row(int offset);
 int cursor_get_col(int offset);
 int cursor_get(void);
-unsigned char readb_port(unsigned short port);
 const char *get_keyboard_layout(int code);
-unsigned short readw_port(unsigned short port);
-void writeb_port(unsigned short port, unsigned char data);
-void writew_port(unsigned short port, unsigned short data);
+uint8_t readb_port(uint16_t port);
+uint16_t readw_port(uint16_t port);
+uint32_t read32_port(uint16_t port);
+void writeb_port(uint16_t port, uint8_t data);
+void writew_port(uint16_t port, uint16_t data);
+void write32_port(uint16_t port, uint32_t data);
 void clear_screen(void);
 void print(char *str);
 void print_at(char *str, int row, int col);

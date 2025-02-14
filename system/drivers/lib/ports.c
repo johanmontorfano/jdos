@@ -1,3 +1,4 @@
+#include "clib.h"
 #include "ctypes.h"
 #include "drivlib.h"
 
@@ -27,4 +28,20 @@ unsigned short readw_port(uint16_t port)
 void writew_port(uint16_t port, uint16_t data)
 {
     __asm__("outw %%ax, %%dx" : : "a" (data), "d" (port));
+}
+
+/// Read a 32-bit unsigned int from a specific port
+uint32_t read32_port(uint16_t port)
+{
+    uint16_t low = readw_port(port);
+    uint16_t high = readw_port(port);
+
+    return ui16c32(high, low);
+}
+
+void write32_port(uint16_t port, uint32_t data)
+{
+    writew_port(port, data);
+    data = data >> 16;
+    writew_port(port, data);
 }
