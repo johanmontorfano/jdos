@@ -6,7 +6,7 @@ CC			=	gcc
 
 CFLAGS		=	-ffreestanding -m32 -c -g -I../include
 
-LIBNAME		=	stdlib.a
+LIBNAME		=	clib.a
 
 all: $(LIBNAME) clean
 
