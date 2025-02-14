@@ -22,6 +22,11 @@ following features at some point:**
             - [ ] Layout support
         - [x] VGA screen
         - [ ] 2D screen
+        - [-] Disk I/O
+            - [x] ATA Identify
+            - [x] ATA PIO 24 bits R/W
+            - [ ] ATA PIO 48 bits R/W
+            - [ ] DMA ATA R/W
     - [-] Features
         - [x] Memory allocation
         - [ ] Memory reallocation
