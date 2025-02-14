@@ -9,7 +9,7 @@ uint8_t readb_port(uint16_t port)
     return result;
 }
 
-void writeb_port(uint16_t port, uint32_t data)
+void writeb_port(uint16_t port, uint8_t data)
 {
     __asm__("outb %%al, %%dx" : : "a" (data), "d" (port));
 }
