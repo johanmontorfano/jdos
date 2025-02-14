@@ -125,7 +125,7 @@ typedef struct s_prdt {
 void ata_bsy_wait(uint16_t port);
 void ata_drq_wait(uint16_t port);
 void ata_drq_err_wait(uint16_t port);
-void ata_select_drive(uint32_t lba_addr);
+void ata_bmr_wait(uint16_t port);
 void pio_lba_write_sector(uint32_t lba_addr, uint16_t *buffer, int len);
 void pio_lba_write_sectors(uint32_t lba_addr, uint16_t *data, int wcount);
 /// Used to copy some short bytes read from the disk to a target with a
