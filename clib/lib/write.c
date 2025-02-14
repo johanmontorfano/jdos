@@ -1,4 +1,4 @@
-#include "stdlib.h"
+#include "clib.h"
 #include "drivlib.h"
 
 void write(char *str, int n)
@@ -27,6 +27,24 @@ void write_int(int nb)
     else {
         write_int(nb / 10);
         write_int(nb % 10);
+    }
+}
+
+void write_uint(unsigned int nb)
+{
+    char c;
+
+    if (nb < 0) {
+        print("-");
+        nb *= -1;
+    }
+    if (nb < 10) {
+        c = nb + 48;
+        write(&c, 1);
+    }
+    else {
+        write_uint(nb / 10);
+        write_uint(nb % 10);
     }
 }
 
