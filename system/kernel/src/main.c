@@ -1,6 +1,6 @@
 #include "drivlib.h"
-#include "interrupts.h"
-#include "shell.h"
+#include "kernel/interrupts.h"
+#include "kernel/shell.h"
 
 int main()
 {

@@ -1,5 +1,5 @@
-#include "timer.h"
-#include "interrupts.h"
+#include "kernel/timer.h"
+#include "kernel/interrupts.h"
 #include "drivlib.h"
 
 unsigned int tick = 0;
