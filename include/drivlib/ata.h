@@ -73,8 +73,12 @@
     #define ATA_ERR_7 (1 << 8)                  // Bad block detected
 
     #define ATA_FLUSH 0xE7
+    // The system currently only support LBA28 operations, meaning that ports
+    // for LBA48 operations are not listed here yet.
     #define ATA_PIO_READ 0x20
     #define ATA_PIO_WRITE 0x30
+    #define ATA_DMA_READ 0xC8
+    #define ATA_DMA_WRITE 0xCA
 
     #include "ctypes.h"
 
