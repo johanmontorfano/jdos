@@ -5,7 +5,7 @@
 static t_kb_nl_handler nl_handler;
 char key_buffer[512];
 int alloc_size = 0;
-int kb_layout = KB_LAYOUT_QWERTY;
+int kb_layout = KB_LAYOUT_AZERTY;
 int kb_shift_pressed = 0;
 
 /// WARN: scancode - 1 may not be fitted for all keyboards/keyboard layouts
