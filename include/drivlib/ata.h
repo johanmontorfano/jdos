@@ -79,6 +79,10 @@
     #define ATA_PIO_WRITE 0x30
     #define ATA_DMA_READ 0xC8
     #define ATA_DMA_WRITE 0xCA
+    #define ATA_DMA_STATUS 0xC000
+    #define ATA_DMA_BUS_MASTER_COMMAND 0xC000
+    #define ATA_DMA_BUS_MASTER_STATUS 0xC002
+    #define ATA_DMA_BUS_MASTER_PRDT 0xC004
 
     #include "ctypes.h"
 
@@ -110,6 +114,13 @@ typedef struct s_disk_info {
     unsigned short serial_number[10];               // bits     10-19
     unsigned short model_number[19];                // bits     27-46
 } t_disk_info;
+
+/// Physical Region Descriptor Table declaration for DMA reading
+typedef struct s_prdt {
+    uint32_t *base;
+    uint16_t size;
+    uint16_t flags;
+} __attribute__((packed)) prdt_t;
 
 void ata_bsy_wait(uint16_t port);
 void ata_drq_wait(uint16_t port);
