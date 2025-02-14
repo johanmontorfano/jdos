@@ -1,14 +1,6 @@
-#include "shell.h"
+#include "kernel/shell.h"
 #include "drivlib.h"
-#include "stdlib.h"
-
-static void print_shell_info(void)
-{
-    print(SHELL_NAME);
-    print(" v");
-    write_int(SHELL_VER);
-    print("\n");
-}
+#include "clib.h"
 
 static void print_help(void)
 {
@@ -17,6 +9,7 @@ static void print_help(void)
     print("SHELL                Print shell version\n");
     print("KEY.LAY <code>       Changes keyboard layout\n");
     print("KEY.GLAY             Get all available layouts\n");
+    print("DISKSHELL            Enter disk shell\n");
 }
 
 static void print_layouts(void)
@@ -34,13 +27,15 @@ void on_line(char *str)
         asm volatile("hlt");
     }
     if (!s_strcmp(args[0], "SHELL"))
-        print_shell_info();
+        print_program_handle(SHELL_NAME, SHELL_VER);
     if (!s_strcmp(args[0], "HELP"))
         print_help();
     if (!s_strcmp(args[0], "KEY.GLAY"))
         print_layouts();
     if (!s_strcmp(args[0], "KEY.LAY"))
         update_kb_layout(atoi(args[1]));
+    if (!s_strcmp(args[0], "DISKSHELL"))
+        return diskshell();
     if (!s_strcmp(args[0], "CLEAR"))
         clear_screen();
     print("> ");

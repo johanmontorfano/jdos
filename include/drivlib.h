@@ -1,5 +1,5 @@
-#ifndef MOD_DRIVERS
-    #define MOD_DRIVERS
+#ifndef KERNEL_DRIV
+    #define KERNEL_DRIV
 
     #define VIDEO_HEX 0xb8000
     #define VIDEO_BUF ((volatile char *)0xb8000)
@@ -36,6 +36,7 @@ void print(char *str);
 void print_at(char *str, int row, int col);
 void cursor_set(int pos);
 void keyboard_init(t_kb_nl_handler handler);
+void read_keyboard(t_kb_nl_handler handler);
 void remove_last_char(void);
 void update_kb_layout(int code);
 
