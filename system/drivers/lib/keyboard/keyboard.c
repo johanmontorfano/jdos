@@ -1,6 +1,6 @@
 #include "drivlib.h"
-#include "interrupts.h"
-#include "stdlib.h"
+#include "kernel/interrupts.h"
+#include "clib.h"
 
 static t_kb_nl_handler nl_handler;
 char key_buffer[512];
@@ -43,6 +43,12 @@ void keyboard_init(t_kb_nl_handler handler)
 {
     nl_handler = handler;
     reg_int_handler(IRQ1, keycback);
+}
+
+/// Set a new handler for the keyboard.
+void read_keyboard(t_kb_nl_handler handler)
+{
+    nl_handler = handler;
 }
 
 void update_kb_layout(int code)

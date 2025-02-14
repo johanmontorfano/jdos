@@ -1,7 +1,6 @@
-SRC			=	lib/ports.c \
-				lib/screen.c \
-				lib/keyboard/keyboard.c \
-				lib/keyboard/layouts.c
+SRC			=	$(wildcard lib/*.c) \
+				$(wildcard lib/keyboard/*.c) \
+				$(wildcard lib/disks/ata/*.c)
 
 OBJ			=	$(SRC:.c=.o)
 
