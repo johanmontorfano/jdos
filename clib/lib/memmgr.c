@@ -1,4 +1,4 @@
-#include "stdlib.h"
+#include "clib.h"
 
 /// TODO: Compute this value at link-time.
 static unsigned int next_free_mem = 0x10000;

@@ -1,4 +1,4 @@
-#include "stdlib.h"
+#include "clib.h"
 
 int c_isnum(char c)
 {

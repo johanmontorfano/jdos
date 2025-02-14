@@ -1,4 +1,4 @@
-#include "stdlib.h"
+#include "clib.h"
 
 /// Reads numbers from a string and create a number from it. Stops at the first
 /// non numeral character encountered.
