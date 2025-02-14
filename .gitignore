@@ -1,5 +1,6 @@
 compile_flags.txt
 josimg.bin
 josimg.bin.elf
+hdd.bin
 */*.a
 */*/*.a
