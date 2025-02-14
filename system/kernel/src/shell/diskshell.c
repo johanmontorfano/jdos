@@ -19,6 +19,18 @@ static void test_overwrite(int secs)
     }
 }
 
+static void test_dmaow(int byte_size)
+{
+    uint32_t buf[byte_size];
+    int i = 0;
+
+    while (i < byte_size) {
+        buf[i] = 0xABCDDCBA;
+        i++;
+    }
+    dma_lba_write_sector(0, buf, byte_size);
+}
+
 static void test_overread(int secs)
 {
     uint16_t *buf;
@@ -103,6 +115,8 @@ static void diskshell_online(char *str)
         test_overwrite(256);
     if (!s_strcmp(args[0], "OVERREAD"))
         test_overread(1);
+    if (!s_strcmp(args[0], "DMAOW"))
+        test_dmaow(16384);
     if (!s_strcmp(args[0], "EXIT")) {
         print("\n");
         print("> ");

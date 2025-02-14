@@ -4,18 +4,13 @@
 /// PRDT static entry definition
 static prdt_t DMA_PRDT __attribute__((aligned(4)));
 
-prdt_t *get_prdt_ref(void)
-{
-    return &DMA_PRDT;
-}
-
 /// WARN: the data buffer is not in words(uint16_t) but in uint32_t, meaning
 /// content can be larger. Hence, the size (len) is doubled compared to what
 /// it would've been with words.
 void dma_lba_write_sector(uint32_t lba_addr, uint32_t *buf, int len)
 {
     ata_bsy_wait(ATA_PRIMARY_7);
-    DMA_PRDT.base = buf;
+    DMA_PRDT.base = (uint32_t)buf;
     DMA_PRDT.size = len;
     DMA_PRDT.flags = 0x8000;
     write32_port(ATA_DMA_BUS_MASTER_PRDT, (uint32_t)&DMA_PRDT);
