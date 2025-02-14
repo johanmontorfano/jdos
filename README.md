@@ -8,7 +8,7 @@ following features at some point:**
 - User Mode
 
 ### Roadmap
-- [ ] Bootloader
+- [x] Bootloader
     - [x] 16-bits compile option
     - [x] 32-bits compile option
     - [x] Kernel loader
