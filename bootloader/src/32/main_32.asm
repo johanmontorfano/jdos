@@ -33,14 +33,11 @@ load_kernel:
 
 [bits 32]
 BEGIN_PM:                       ; switch_to_pm will redirect to here
-    mov ebx, MSG_PROT_MODE
-    call print_string_pm
     call KERNEL_OFFSET
     jmp $
 
 BOOT_DRIVE db 0
 MSG_REAL_MODE db "Started in 16-bit real mode", 0
-MSG_PROT_MODE db "Loaded 32-bit protected mode", 0
 MSG_LOAD_KERN db "Loading kernel into memory", 0
 
 ; Bootsector
