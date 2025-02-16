@@ -25,7 +25,7 @@ static void test_dmaow(int byte_size)
     int i = 0;
 
     while (i < byte_size) {
-        buf[i] = 0xABCDDCBA;
+        buf[i] = 0xBEEFBEEF;
         i++;
     }
     dma_lba_write_sector(0, buf, byte_size);
@@ -116,7 +116,7 @@ static void diskshell_online(char *str)
     if (!s_strcmp(args[0], "OVERREAD"))
         test_overread(1);
     if (!s_strcmp(args[0], "DMAOW"))
-        test_dmaow(16384);
+        test_dmaow(128);
     if (!s_strcmp(args[0], "EXIT")) {
         print("\n");
         print("> ");

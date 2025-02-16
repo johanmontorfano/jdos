@@ -1,4 +1,5 @@
 #include "drivlib.h"
+#include "drivlib/ata.h"
 #include "kernel/interrupts.h"
 #include "kernel/shell.h"
 
@@ -9,9 +10,10 @@ int main()
     print("kernel: init interruptions\n");
     isr_init();
     irq_init(50, &on_line);
+    print("kernel: init DMA PRD table\n");
+    init_dma_prdt();
     print("kernel: ok\n");
     print("shell: ok\n");
-    clear_screen();
-    print("Type EXIT to halt the system, SHELL to get shell's version, ...\n");
+    print("Type HELP to get available commands...\n");
     print("> ");
 }
