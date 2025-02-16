@@ -50,7 +50,9 @@ run:
 	qemu-system-x86_64 -fda $(IMAGE_NAME) -hda $(DISK_NAME)
 
 debug: $(KERNEL_NAME).elf clean
-	qemu-system-x86_64 -s -fda $(IMAGE_NAME) -d guest_errors,int &
+	qemu-system-x86_64 -s -fda $(IMAGE_NAME) \
+		-hda $(DISK_NAME) \
+		-d guest_errors,int &
 	gdb -ex "target remote localhost:1234" -ex "symbol-file $(KERNEL_NAME).elf"
 
 fclean: clean
