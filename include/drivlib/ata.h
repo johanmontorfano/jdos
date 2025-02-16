@@ -4,7 +4,8 @@
     // of type uint8_t.
     // Rows with a '*' means LBA28 = uint8_t, LBA48 = uint16_t
     // Rows with a '^' means LBA28/LBA48 = uint16_t
-    #define ATA_PRIMARY_0 0x1F0                 // R/W PIO bytes            ^
+    #include <stdint.h>
+#define ATA_PRIMARY_0 0x1F0                 // R/W PIO bytes            ^
     #define ATA_PRIMARY_1 0x1F1                 // R: Error                 *
                                                 // W: Features              *
     #define ATA_PRIMARY_2 0x1F2                 // SectorCount              *
@@ -79,10 +80,10 @@
     #define ATA_PIO_WRITE 0x30
     #define ATA_DMA_READ 0xC8
     #define ATA_DMA_WRITE 0xCA
-    #define ATA_DMA_STATUS 0xC000
     #define ATA_DMA_BUS_MASTER_COMMAND 0xC000
     #define ATA_DMA_BUS_MASTER_STATUS 0xC002
     #define ATA_DMA_BUS_MASTER_PRDT 0xC004
+    #define ATA_PRD_TABLE_LENGTH 1
 
     #include "ctypes.h"
 
@@ -117,21 +118,22 @@ typedef struct s_disk_info {
 
 /// Physical Region Descriptor Table declaration for DMA reading
 typedef struct s_prdt {
-    uint32_t *base;
+    uint32_t base;
     uint16_t size;
     uint16_t flags;
 } __attribute__((packed)) prdt_t;
 
+void init_dma_prdt(void);
 void ata_bsy_wait(uint16_t port);
 void ata_drq_wait(uint16_t port);
 void ata_drq_err_wait(uint16_t port);
 void ata_bmr_wait(uint16_t port);
 void pio_lba_write_sector(uint32_t lba_addr, uint16_t *buffer, int len);
-void pio_lba_write_sectors(uint32_t lba_addr, uint16_t *data, int wcount);
+void dma_lba_write_sector(uint32_t lba_addr, uint32_t *buffer, uint32_t len);
 /// Used to copy some short bytes read from the disk to a target with a
 /// offset.
-void short_cpy(uint16_t *data, uint16_t *target, int p, int s);
 t_disk_info *get_disk_info(void);
 uint16_t *pio_lba_read_sector(uint32_t lba_addr);
+uint32_t *dma_lba_read_sector(uint32_t lba_addr);
 
 #endif
