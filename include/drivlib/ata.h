@@ -4,8 +4,7 @@
     // of type uint8_t.
     // Rows with a '*' means LBA28 = uint8_t, LBA48 = uint16_t
     // Rows with a '^' means LBA28/LBA48 = uint16_t
-    #include <stdint.h>
-#define ATA_PRIMARY_0 0x1F0                 // R/W PIO bytes            ^
+    #define ATA_PRIMARY_0 0x1F0                 // R/W PIO bytes            ^
     #define ATA_PRIMARY_1 0x1F1                 // R: Error                 *
                                                 // W: Features              *
     #define ATA_PRIMARY_2 0x1F2                 // SectorCount              *
