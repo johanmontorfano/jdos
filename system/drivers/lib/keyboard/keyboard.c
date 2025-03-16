@@ -1,6 +1,6 @@
 #include "drivlib.h"
 #include "kernel/interrupts.h"
-#include "clib.h"
+#include "libc.h"
 
 static t_kb_nl_handler nl_handler;
 char key_buffer[512];

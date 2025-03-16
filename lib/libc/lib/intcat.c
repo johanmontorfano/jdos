@@ -1,5 +1,5 @@
 #include "ctypes.h"
-#include "clib.h"
+#include "libc.h"
 #include "drivlib.h"
 
 /// Combine two uint16_t values into a uint32_t

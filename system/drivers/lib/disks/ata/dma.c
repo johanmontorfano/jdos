@@ -1,6 +1,6 @@
 #include "drivlib.h"
 #include "drivlib/ata.h"
-#include "clib.h"
+#include "libc.h"
 
 static char *dmawarn = "Some DMA mechanisms are implemented, such as PRD, \
 PRDT, DMA WRITE.\nIt is highly not recommended to use DMA in its actual \

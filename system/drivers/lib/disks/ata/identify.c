@@ -1,7 +1,7 @@
 /// Source:
 ///     https://wiki.osdev.org/ATA_PIO_Mode#IDENTIFY_command
 
-#include "clib.h"
+#include "libc.h"
 #include "drivlib.h"
 #include "drivlib/ata.h"
 

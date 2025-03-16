@@ -1,4 +1,4 @@
-#include "clib.h"
+#include "libc.h"
 #include "ctypes.h"
 
 /// Return the state of a bit in a 16-bits unsigned number.

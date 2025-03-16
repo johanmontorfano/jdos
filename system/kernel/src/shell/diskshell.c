@@ -1,4 +1,4 @@
-#include "clib.h"
+#include "libc.h"
 #include "drivlib.h"
 #include "drivlib/ata.h"
 #include "kernel/shell.h"

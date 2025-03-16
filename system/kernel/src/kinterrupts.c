@@ -1,7 +1,7 @@
 #include "kernel/interrupts.h"
 #include "kernel/timer.h"
 #include "drivlib.h"
-#include "clib.h"
+#include "libc.h"
 
 isr_t int_handlers[256];
 

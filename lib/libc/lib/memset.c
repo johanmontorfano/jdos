@@ -1,4 +1,4 @@
-#include "clib.h"
+#include "libc.h"
 
 void mem_set(unsigned char *dest, unsigned int size)
 {

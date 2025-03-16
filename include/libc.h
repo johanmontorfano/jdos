@@ -1,5 +1,5 @@
-#ifndef CLIB
-    #define CLIB
+#ifndef LIBC
+    #define LIBC
     #define MEM_PAGE_SIZE 0x1000
     #include "ctypes.h"
 

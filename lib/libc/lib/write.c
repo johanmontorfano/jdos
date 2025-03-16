@@ -1,4 +1,4 @@
-#include "clib.h"
+#include "libc.h"
 #include "drivlib.h"
 
 void write(char *str, int n)

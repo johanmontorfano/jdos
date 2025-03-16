@@ -1,6 +1,6 @@
 #include "kernel/shell.h"
 #include "drivlib.h"
-#include "clib.h"
+#include "libc.h"
 
 static void print_help(void)
 {

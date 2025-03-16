@@ -1,5 +1,5 @@
 #include "drivlib.h"
-#include "clib.h"
+#include "libc.h"
 
 /// Checks if the content will overflow from video memory and apply a scroll
 /// effect if so.

@@ -1,4 +1,4 @@
-#include "clib.h"
+#include "libc.h"
 
 static int count_words(char *str)
 {
