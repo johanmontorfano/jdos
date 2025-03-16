@@ -8,7 +8,7 @@ KERNEL_SRC			=	system/kernel/src/main.o \
 						$(wildcard system/drivers/lib/*.o) \
 						$(wildcard system/drivers/lib/disks/ata/*.o) \
 						$(wildcard system/drivers/lib/keyboard/*.o) \
-						$(wildcard clib/lib/*.o) \
+						$(wildcard lib/libc/lib/*.o) \
 						system/bootloader/kernel32.o \
 						$(wildcard system/kernel/asm/*.o)
 
@@ -28,7 +28,7 @@ all: $(KERNEL_NAME) $(IMAGE_NAME) $(DISK_NAME) clean
 re: fclean all
 
 dependencies:
-	make -C clib
+	make -C lib/libc
 	make -C system/bootloader make_32
 	make -C system/bootloader make_kern
 	make -C system/drivers
