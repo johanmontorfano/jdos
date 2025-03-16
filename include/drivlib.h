@@ -1,3 +1,10 @@
+/// The ECHO_KEYBOARD feature is used to determine if the keyboard driver
+/// should print the inputed content to the string. To disable this
+/// feature compile libdrivers with -DECHO_KEYBOARD=0
+#ifndef ECHO_KEYBOARD
+    #define ECHO_KEYBOARD 1
+#endif
+
 #ifndef KERNEL_DRIV
     #define KERNEL_DRIV
     #define VIDEO_HEX 0xb8000
@@ -14,10 +21,6 @@
     #define KB_LAYOUT_QWERTY 1
     #define REG_SCREEN_CTRL 0x3d4
     #define REG_SCREEN_DATA 0x3d5
-    /// The ECHO_KEYBOARD feature is used to determine if the keyboard driver
-    /// should print the inputed content to the string. To disable this
-    /// feature compile libdrivers with -DECHO_KEYBOARD=0
-    #define ECHO_KEYBOARD 1
     #include "ctypes.h"
 
 int writec(char c, int col, int row);
