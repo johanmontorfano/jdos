@@ -1,10 +1,8 @@
+#include "libc.h"
+
 /// WARN: Doesn't check if dest is long enough
 void s_strcpy(char *dest, char *src)
 {
-    int i = 0;
-
-    while (src && src[i]) {
+    for (uint32_t i = 0; src && src[i]; i++)
         dest[i] = src[i];
-        i++;
-    }
 }
