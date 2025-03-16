@@ -14,6 +14,7 @@
     #define KB_LAYOUT_QWERTY 1
     #define REG_SCREEN_CTRL 0x3d4
     #define REG_SCREEN_DATA 0x3d5
+    #define ECHO_KEYBOARD 1
     #include "ctypes.h"
 
 int writec(char c, int col, int row);

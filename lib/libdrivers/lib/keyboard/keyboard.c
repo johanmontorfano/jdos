@@ -19,15 +19,18 @@ static void keycback(t_cpu_reg regs)
         kb_shift_pressed = !kb_shift_pressed;
     if (scancode == KB_BACKSPACE && stdin_size > 0) {
         stdin_size -= 1;
-        remove_last_char();
-    } else if (scancode == KB_ENTER)
+    } else if (scancode == KB_ENTER) {
         stdin_write('\n');
+        if (ECHO_KEYBOARD)
+            print("\n");
+    }
     else if (scancode < 85 && c_isprintable(vk_char)) {
         if (c_isalphalow(vk_char) && kb_shift_pressed)
             vk_char -= 32;
         print_buf[0] = vk_char;
-        print(print_buf);
         stdin_write(print_buf[0]);
+        if (ECHO_KEYBOARD)
+            print(print_buf);
     }
 }
 
