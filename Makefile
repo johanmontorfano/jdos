@@ -33,10 +33,10 @@ dependencies:
 	make -C system/kernel
 
 $(KERNEL_NAME): dependencies
-	ld $(LD_FLAGS) -o $@ -Ttext 0x1000 $(KERNEL_SRC) --oformat binary
+	ld $(LD_FLAGS) -o $@ $(KERNEL_SRC) --oformat binary
 
 $(KERNEL_NAME).elf: dependencies
-	ld $(LD_FLAGS) -o $@ -Ttext 0x1000 $(KERNEL_SRC)
+	ld $(LD_FLAGS) -o $@ $(KERNEL_SRC)
 
 $(IMAGE_NAME): $(IMAGE_SRC)
 	cat $^ > $@
