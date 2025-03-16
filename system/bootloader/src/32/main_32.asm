@@ -1,13 +1,13 @@
 [org 0x7c00]                    ; Bootloader offset
 KERNEL_OFFSET equ 0x1000        ; Offset used by the linker
 
+    mov bx, MSG_BOOTLOADER
+    call print
     mov [BOOT_DRIVE], dl
     mov bp, 0x9000
     mov sp, bp
     mov bx, MSG_REAL_MODE
     call print
-    call print_nl
-
     call load_kernel
     call switch_to_pm
     jmp $                       ; Unreachable
@@ -23,8 +23,6 @@ KERNEL_OFFSET equ 0x1000        ; Offset used by the linker
 load_kernel:
     mov bx, MSG_LOAD_KERN
     call print
-    call print_nl
-
     mov bx, KERNEL_OFFSET
     mov dh, 44                  ; Kernel size
     mov dl, [BOOT_DRIVE]
@@ -37,8 +35,9 @@ BEGIN_PM:                       ; switch_to_pm will redirect to here
     jmp $
 
 BOOT_DRIVE db 0
-MSG_REAL_MODE db "Started in 16-bit real mode", 0
-MSG_LOAD_KERN db "Loading kernel into memory", 0
+MSG_BOOTLOADER db "Johan's Dumb Bootloader: ", 0
+MSG_REAL_MODE db "16bits mode; ", 0
+MSG_LOAD_KERN db "kernel reading; ", 0
 
 ; Bootsector
 times 510 - ($-$$) db 0
