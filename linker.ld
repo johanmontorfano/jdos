@@ -2,9 +2,11 @@ ENTRY(_start)
 
 SECTIONS
 {
-    . = 0x100000;  /* Kernel loads at 1MB */
+    /* Kernel offset: 4kb */
+    . = 0x1000;
 
     .text : {
+        *(.text._start)
         *(.text)
     }
 
