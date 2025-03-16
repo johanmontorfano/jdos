@@ -9,12 +9,12 @@ KERNEL_SRC			=	system/kernel/src/main.o \
 						$(wildcard system/drivers/lib/disks/ata/*.o) \
 						$(wildcard system/drivers/lib/keyboard/*.o) \
 						$(wildcard clib/lib/*.o) \
-						bootloader/kernel32.o \
+						system/bootloader/kernel32.o \
 						$(wildcard system/kernel/asm/*.o)
 
 KERNEL_NAME			=	kernel.bin
 
-IMAGE_SRC			=	bootloader/bootsector.bin \
+IMAGE_SRC			=	system/bootloader/bootsector.bin \
 						$(KERNEL_NAME)
 
 IMAGE_NAME			=	josimg.bin
@@ -29,8 +29,8 @@ re: fclean all
 
 dependencies:
 	make -C clib
-	make -C bootloader make_32
-	make -C bootloader make_kern
+	make -C system/bootloader make_32
+	make -C system/bootloader make_kern
 	make -C system/drivers
 	make -C system/kernel
 
