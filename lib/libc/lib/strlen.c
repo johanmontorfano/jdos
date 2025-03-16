@@ -1,4 +1,5 @@
 #include "ctypes.h"
+#include "libc.h"
 
 int s_strlen(char *str)
 {
