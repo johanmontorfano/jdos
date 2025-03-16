@@ -1,8 +1,9 @@
+#include "ctypes.h"
+
 int s_strlen(char *str)
 {
-    int i = 0;
+    uint32_t i = 0;
 
-    while (str && str[i])
-        i++;
+    for (; str && str[i]; i++);
     return i;
 }
