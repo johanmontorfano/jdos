@@ -8,7 +8,7 @@ CFLAGS		=	-ffreestanding -m32 -c -g -I../../include
 
 LIBNAME		=	libc.a
 
-all: $(LIBNAME) clean
+all: $(LIBNAME)
 
 re: fclean all
 

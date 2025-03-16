@@ -21,9 +21,9 @@ IMAGE_NAME			=	josimg.bin
 
 DISK_NAME			=	hdd.bin
 
-DISK_SIZE			=	100M
+DISK_SIZE			=	10M
 
-all: $(KERNEL_NAME) $(IMAGE_NAME) $(DISK_NAME) clean
+all: $(KERNEL_NAME) $(IMAGE_NAME) $(DISK_NAME)
 
 re: fclean all
 
