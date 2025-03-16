@@ -14,6 +14,7 @@ int s_strlen(char *str);
 int s_strcmp(char *s1, char *s2);
 int atoi(char *str);
 int uint16bitst(uint16_t nb, int bit);
+int getline(char **dest);
 void s_strcpy(char *dest, char *src);
 void mem_set(unsigned char *dest, unsigned int size);
 void mem_copy(unsigned char *source, unsigned char *dest, int n);

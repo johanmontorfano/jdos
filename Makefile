@@ -3,6 +3,7 @@ LINKER				=	ld
 L_FLAGS				=	--allow-multiple-definition -m elf_i386
 
 KERNEL_SRC			=	system/kernel/src/main.o \
+						$(wildcard system/kernel/src/buffers/*.o) \
 						$(wildcard system/kernel/src/shell/*.o) \
 						$(wildcard system/kernel/src/k*.o) \
 						$(wildcard system/drivers/lib/*.o) \

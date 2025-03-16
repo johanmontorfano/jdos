@@ -7,6 +7,35 @@ following features at some point:**
 - Applications
 - User Mode
 
+### Compilation
+
+To properly compile the system, call `make`. To run it, call `make run`.
+
+If you are trying to use HDD-based bootloader/kernel, call `make run_hdd`
+instead.
+
+If you have trouble running the OS (loop), try removig `hdd.bin` and
+recompiling. In some cases, `hdd.bin` content can be causing issues.
+
+### OS Specifications
+
+##### Drivers
+
+Drivers, depending on their kind, have to operate with buffers.
+
+##### Buffers
+
+Buffers are objects used by the kernel to keep track of input/outputs making
+possible for libc to abstract stuff like `getline`.
+
+| Buffer name      | Buffer Description                            |
+| ---------------- | --------------------------------------------- |
+| **stdin**        | Stores keyboard/mouse input data              |
+| **stdout**       | Stores printed data                           |
+| **stderr**       | Stores printed data categorized as errors     |
+
+Every buffer can be flushed by a program/the kernel.
+
 ### Roadmap
 - [x] Bootloader
     - [x] 16-bits compile option

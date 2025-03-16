@@ -125,11 +125,11 @@ void isr_init(void)
 }
 
 /// Inits: timer + keyboard
-void irq_init(unsigned int tick_speed, t_kb_nl_handler handler)
+void irq_init(unsigned int tick_speed)
 {
     asm volatile("sti");
     timer_init(tick_speed);
-    keyboard_init(handler);
+    keyboard_init();
 }
 
 void isr_handler(t_cpu_reg r)
@@ -153,7 +153,8 @@ void irq_handler(t_cpu_reg r)
 {
     isr_t handler;
 
-    if (r.int_no >= 40) writeb_port(0xA0, 0x20);
+    if (r.int_no >= 40)
+        writeb_port(0xA0, 0x20);
     writeb_port(0x20, 0x20);
     if (int_handlers[r.int_no] != 0) {
         handler = int_handlers[r.int_no];

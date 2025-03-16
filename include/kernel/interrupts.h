@@ -104,7 +104,7 @@ idt_reg_t idt_reg;
 void set_idt(void);
 void set_idt_gate(int n, unsigned int handler);
 void isr_init(void);
-void irq_init(unsigned int tick_speed, t_kb_nl_handler handler);
+void irq_init(unsigned int tick_speed);
 void irq_handler(t_cpu_reg r);
 void reg_int_handler(unsigned char , isr_t handler);
 
