@@ -1,17 +1,14 @@
 LINKER				=	ld
 
-L_FLAGS				=	--allow-multiple-definition -m elf_i386
+LD_FLAGS			=	--allow-multiple-definition -m elf_i386 -T linker.ld
 
 KERNEL_SRC			=	system/kernel/src/main.o \
-						$(wildcard system/kernel/src/buffers/*.o) \
-						$(wildcard system/kernel/src/shell/*.o) \
-						$(wildcard system/kernel/src/k*.o) \
-						$(wildcard system/drivers/lib/*.o) \
-						$(wildcard system/drivers/lib/disks/ata/*.o) \
-						$(wildcard system/drivers/lib/keyboard/*.o) \
-						$(wildcard lib/libc/lib/*.o) \
+						$(wildcard system/kernel/src/*/*.o) \
+						$(wildcard system/kernel/asm/*.o) \
+						$(wildcard system/kernel/src/*.o) \
 						system/bootloader/kernel32.o \
-						$(wildcard system/kernel/asm/*.o)
+						lib/libdrivers/libdrivers.a \
+						lib/libc/libc.a
 
 KERNEL_NAME			=	kernel.bin
 
@@ -30,16 +27,16 @@ re: fclean all
 
 dependencies:
 	make -C lib/libc
+	make -C lib/libdrivers
 	make -C system/bootloader make_32
 	make -C system/bootloader make_kern
-	make -C system/drivers
 	make -C system/kernel
 
 $(KERNEL_NAME): dependencies
-	ld $(L_FLAGS) -o $@ -Ttext 0x1000 $(KERNEL_SRC) --oformat binary
+	ld $(LD_FLAGS) -o $@ -Ttext 0x1000 $(KERNEL_SRC) --oformat binary
 
 $(KERNEL_NAME).elf: dependencies
-	ld $(L_FLAGS) -o $@ -Ttext 0x1000 $(KERNEL_SRC)
+	ld $(LD_FLAGS) -o $@ -Ttext 0x1000 $(KERNEL_SRC)
 
 $(IMAGE_NAME): $(IMAGE_SRC)
 	cat $^ > $@

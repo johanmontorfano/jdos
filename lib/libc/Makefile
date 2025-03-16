@@ -13,7 +13,7 @@ all: $(LIBNAME)
 re: fclean all
 
 $(LIBNAME): $(OBJ)
-	ar -cq $(LIBNAME) $(OBJ)
+	ar rcs $(LIBNAME) $(OBJ)
 
 clean:
 
