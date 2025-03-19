@@ -8,7 +8,7 @@ gdt_code:
     dw 0xffff                   ; Segment length
     dw 0x0                      ; Segment base, 0-15
     db 0x0                      ; Segment base, 16-23
-    db 10011010b                ; Flags (8-bit)
+    db 10011010b                ; Present, Ring 0, Code, Readable
     db 11001111b                ; Flags (4-bit) + segment length
     db 0x0                      ; Segment base, 24-31
 
@@ -17,7 +17,7 @@ gdt_data:
     dw 0xffff
     dw 0x0
     db 0x0
-    db 10010010b
+    db 10010010b                ; Present, Ring 0, Data, Writable
     db 11001111b
     db 0x0
 
@@ -28,5 +28,5 @@ gdt_descriptor:
     dd gdt_start
 
 ; GDT constants for later use
-CODE_SEG equ gdt_code - gdt_start
-DATA_SEG equ gdt_data - gdt_start
+CODE_SEG        equ gdt_code - gdt_start
+DATA_SEG        equ gdt_data - gdt_start
