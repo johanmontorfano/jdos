@@ -14,4 +14,4 @@ CFLAGS		=	-ffreestanding  -m32 -c -g -I../../include
 all: $(OBJ)
 
 %.o: %.asm
-	nasm $< -f elf -o $@
+	nasm $< -f elf -g -o $@

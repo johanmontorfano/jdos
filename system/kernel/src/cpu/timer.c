@@ -1,4 +1,4 @@
-#include "kernel/timer.h"
+#include "kernel/cpu.h"
 #include "kernel/interrupts.h"
 #include "drivlib.h"
 

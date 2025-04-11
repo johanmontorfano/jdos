@@ -1,12 +1,11 @@
 #include "libc.h"
+#include "ctypes.h"
 
-void mem_set(unsigned char *dest, unsigned int size)
+void *mem_set(void *dest, register int val, register size_t len)
 {
-    unsigned char *tmp = dest;
+    register uint8_t *ptr = (uint8_t *)dest;
 
-    while (size > 0) {
-        *tmp = 0;
-        tmp++;
-        size--;
-    }
+    while (len-- > 0)
+        *ptr++  = val;
+    return dest;
 }

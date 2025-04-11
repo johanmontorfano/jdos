@@ -1,10 +1,11 @@
 #include "kernel/interrupts.h"
-#include "kernel/timer.h"
+#include "kernel/cpu.h"
 #include "drivlib.h"
+#include "ctypes.h"
 #include "libc.h"
 
 isr_t int_handlers[256];
-
+uint8_t previous_int = 255;
 char *exception_msg[] = {
     "Division By Zero",
     "Debug",
@@ -136,6 +137,9 @@ void isr_handler(t_cpu_reg r)
 {
     char s[3];
 
+    if (previous_int == r.int_no)
+        return;
+    previous_int = r.int_no;
     print("!! ");
     write_int(r.int_no);
     print(" -> ");
