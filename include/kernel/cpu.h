@@ -5,7 +5,7 @@
 
 extern void syscall_entry(void);
 void init_system_calls(void);
-void system_call(int syscall_number);
+void system_call(uint32_t syscall_number);
 void write_msr(uint32_t msr, uint32_t value);
 void timer_init(uint32_t freq);
 

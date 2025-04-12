@@ -1,5 +1,5 @@
 #include "ctypes.h"
-#include "kernel/msr.h"
+#include "kernel/cpu.h"
 
 /// MSR (Model-Specific Registers) are special control registers that manages
 /// low-level CPU features.

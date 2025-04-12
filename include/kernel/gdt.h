@@ -55,5 +55,7 @@ void prepare_ring3(void);
 void write_tss(gdt_entry_t *from);
 void flush_tss(void);
 void set_kernel_stack(uint32_t stack);
+void enter_user_mode(void);
+void load_kernel_gdt(void);
 
 #endif
