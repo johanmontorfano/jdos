@@ -3,6 +3,5 @@
 
 int usermode()
 {
-    write("usermode", 8);
     while (1);
 }

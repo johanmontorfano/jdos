@@ -12,61 +12,79 @@
 /// | 4                       | Ring 3 data                         |
 /// | 5                       | TSS                                 |
 static gdt_entry_t gdt[6];
-gdt_entry_t *ring3_code = &gdt[3];
-gdt_entry_t *ring3_data = &gdt[4];
-tss_entry_t tss;
+static gdt_descriptor_t gdt_desc;
+static tss_entry_t tss;
 
-
-/// Required to enter the ring 3. Should only be ran one time.
-/// WARN: The one time running may be wrong, but it seems logical to do it
-/// this way. But there is nothing logical about CPUs.
-void prepare_ring3(void)
+/// Prepare any gdt entry in `gdt`.
+static void set_gdt(gdt_entry_t *entry,
+        uint32_t base, uint32_t limit,
+        uint8_t access, uint8_t flags)
 {
-    ring3_code->limit_low = 0xFFFF;
-    ring3_code->base_low = 0;
-    ring3_code->accessed = 0;
-    ring3_code->rw = 1;
-    ring3_code->conforming_expand_down = 0;
-    ring3_code->code = 1;
-    ring3_code->code_data_seg = 1;
-    ring3_code->dpl = 3;
-    ring3_code->present = 1;
-    ring3_code->limit_high = 0xF;
-    ring3_code->available = 1;
-    ring3_code->long_mode = 0;
-    ring3_code->big = 1;
-    ring3_code->gran = 1;
-    ring3_code->base_high = 0;
-    *ring3_data = *ring3_code;      // Copies the structure content.
-    ring3_data->code = 0;           // Specifies this is a writable seg.
+    entry->limit_low = (limit & 0xFFFF);
+    entry->base_low = (base & 0xFFFFFF);
+    entry->limit_high = (limit >> 16) & 0xF;
+    entry->base_high = (base >> 24) & 0xFF;
+    entry->accessed = (access > 0) & 1;
+    entry->rw = (access >> 1) & 1;
+    entry->conforming_expand_down = (access >> 2) & 1;
+    entry->code = (access >> 3) & 1;
+    entry->code_data_seg = (access >> 4) & 1;
+    entry->dpl = (access >> 5) & 0x3;
+    entry->present = (access >> 7) & 1;
+    entry->available = (flags >> 0) & 1;
+    entry->long_mode = (flags >> 1) & 1;
+    entry->big = (flags >> 2) & 1;
+    entry->gran = (flags >> 3) & 1;
 }
 
-void write_tss(gdt_entry_t *from)
-{
+/// Write the GDT TSS descriptor and the TSS entry.
+static void write_tss(gdt_entry_t *entry) {
     uint32_t base = (uint32_t)&tss;
-    /// WARN: sizeof usage may create issues.
-    uint32_t limit = sizeof(tss_entry_t);
+    uint32_t limit = sizeof(tss_entry_t) - 1;
 
-    from->limit_low = base;
-    from->base_low = base;
-    from->accessed = 1;
-    from->rw = 0;
-    from->conforming_expand_down = 0;
-    from->code = 1;
-    from->code_data_seg = 0;
-    from->dpl = 0;
-    from->present = 1;
-    from->limit_high = (limit & (0xF << 16)) >> 16;
-    from->available = 0;
-    from->long_mode = 0;
-    from->big = 0;
-    from->gran = 0;
-    from->base_high = (base & (0xFF << 24)) >> 24;
-    /// Used to ensure TSS is 0'ed.
     mem_set(&tss, 0, sizeof(tss_entry_t));
-    /// TODO: REPLACE THOSE PLACEHOLDERS TO MAKE TSS WORK.
-    tss.ss0 = /* KERNEL DATA SEGMENT */ 0;
-    tss.esp0 = /* KERNEL STACK ADDRESS */ 0;
+    tss.ss0 = KERNEL_DATA_SEG;
+    tss.esp0 = 0x9FFFF;
+    tss.iomap_base = sizeof(tss_entry_t);
+    entry->limit_low = limit & 0xFFFF;
+    entry->base_low = base & 0xFFFFFF;
+    entry->base_high = (base >> 24) & 0xFF;
+    entry->accessed = 1;
+    entry->rw = 0;
+    entry->conforming_expand_down = 0;
+    entry->code = 1;
+    entry->code_data_seg = 0;
+    entry->dpl = 0;
+    entry->present = 1;
+    entry->limit_high = (limit >> 16) & 0xF;
+    entry->available = 0;
+    entry->long_mode = 0;
+    entry->big = 0;
+    entry->gran = 0;
+}
+
+/// Will initialize all GDT tables using `set_gdt`
+void init_gdt(void)
+{
+    uint32_t tss_base = (uint32_t)&tss;
+    uint32_t tss_limit = sizeof(tss_entry_t);
+
+    set_gdt(&gdt[0], 0, 0, 0, 0);
+    set_gdt(&gdt[1], 0, 0xFFFFF, 0x9A, 0xC);
+    set_gdt(&gdt[2], 0, 0xFFFFF, 0x92, 0xC);
+    set_gdt(&gdt[3], 0, 0xFFFFF, 0xFA, 0xC);
+    set_gdt(&gdt[4], 0, 0xFFFFF, 0xF2, 0xC);
+    write_tss(&gdt[5]);
+    gdt_desc.size = sizeof(gdt) - 1;
+    gdt_desc.offset = (uint32_t)&gdt;
+    asm_load_gdt(&gdt_desc);
+    asm volatile (
+        "movw %0, %%ax\n"
+        "ltr %%ax\n"
+        :
+        : "i"(TSS_SEG)
+        : "ax"
+    );
 }
 
 /// INFO: Stack is expected to be an address.

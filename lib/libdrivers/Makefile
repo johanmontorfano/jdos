@@ -9,7 +9,7 @@ OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
 
 CFLAGS		=	-ffreestanding -m32 -c -g -I../../include $(DEPS) \
-					-DECHO_KEYBOARD=0
+					-DECHO_KEYBOARD=1
 
 LIBNAME		=	libdrivers.a
 

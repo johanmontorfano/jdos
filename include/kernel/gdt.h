@@ -1,6 +1,19 @@
 #ifndef KERNEL_GDT
     #define KERNEL_GDT
+
+    #define KERNEL_CODE_SEG (1 << 3)
+    #define KERNEL_DATA_SEG (2 << 3)
+    #define USER_CODE_SEG   ((3 << 3) | 0x3)
+    #define USER_DATA_SEG   ((4 << 3) | 0x3)
+    #define TSS_SEG         (5 << 3)
+
     #include "ctypes.h"
+
+
+typedef struct s_gdt_descriptor {
+    uint16_t size;
+    uint32_t offset;
+} __attribute__((packed)) gdt_descriptor_t;
 
 typedef struct s_gdt_entry {
     uint16_t limit_low                  : 16;
@@ -51,11 +64,9 @@ typedef struct s_tss_entry {
     uint32_t iomap_base;
 } __attribute__((packed)) tss_entry_t;
 
-void prepare_ring3(void);
-void write_tss(gdt_entry_t *from);
-void flush_tss(void);
+void init_gdt(void);
 void set_kernel_stack(uint32_t stack);
-void enter_user_mode(void);
-void load_kernel_gdt(void);
+extern void asm_load_gdt(gdt_descriptor_t *);
+extern void enter_user_mode(void);
 
 #endif

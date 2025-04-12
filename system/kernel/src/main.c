@@ -9,7 +9,8 @@ int main()
     char *line;
 
     clear_screen();
-    load_kernel_gdt();
+    init_gdt();
+    set_kernel_stack(0x9FFFF);
     isr_init();
     irq_init(50);
     init_system_calls();
