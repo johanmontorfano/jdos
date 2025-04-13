@@ -59,8 +59,8 @@ Every buffer can be flushed by a program/the kernel.
     - [-] Features
         - [x] Memory allocation
         - [ ] Memory reallocation
-        - [ ] User mode
-        - [ ] Kernel mode
+        - [-] User mode
+        - [x] Kernel mode
         - [ ] File system
         - [ ] APM (Advanced Power Mgmt) support
     - [-] Mini shell
