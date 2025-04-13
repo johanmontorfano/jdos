@@ -3,5 +3,6 @@
 
 int usermode()
 {
+    syscall(1);
     while (1);
 }

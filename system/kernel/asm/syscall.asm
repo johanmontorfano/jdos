@@ -10,6 +10,7 @@ global syscall_entry
 ; register managment.
 ; WARN: This code expects a C function call `system_call` to be defined since
 ; it will be the function called to manage the syscall.
+; WARN: This expects to run in ring 3
 ; INFO: The sysenter instruction is not present here since this piece of code
 ; will be ran
 ;
@@ -18,20 +19,31 @@ global syscall_entry
 ; eax       | Syscall number
 section .text
 syscall_entry:
-    mov ecx, esp     ; Store user ESP in ECX
-    push ecx         ; Save user ESP on kernel stack
+    ; Save caller-saved registers
+    push eax
+    push ecx
+    push edx
+
+    ; Save user return address context (passed by user)
+    ; ECX = return EIP
+    ; EDX = return ESP
+    push ecx    ; Save EIP
+    push edx    ; Save ESP
+
+    ; Get syscall number back
+    pop edx     ; Restore ESP into EDX
+    pop ecx     ; Restore EIP into ECX
+    pop eax     ; Restore syscall number into EAX
+
+    ; Frame for C call
     push ebp
     mov ebp, esp
-    push eax  ; Syscall number
 
     call system_call
 
-    pop eax
-    pop ecx          ; Load saved ESP
-    mov esp, ecx     ; Restore user stack
-    mov edx, 0x23    ; User Data Segment (Ring 3)
-    mov ss, edx      ; Set user stack segment
-    mov ecx, 0x1B    ; User Code Segment (Ring 3)
-    push ecx         ; Push CS for sysexit
-    push eax         ; Push return EIP
-    sysexit          ; Fast return to user mode
+    pop ebp
+
+    ; Now restore EDX = user ESP, ECX = user EIP (in this order!)
+    ; They're still in registers from above, no need to reload
+
+    sysexit     ; ↘ CPU switches ring + sets EIP = ECX, ESP = EDX

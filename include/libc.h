@@ -21,7 +21,7 @@ void write(char *str, int n);
 void write_int(int nb);
 void write_uint(unsigned int nb);
 void write_hex(unsigned int nb);
-void syscall(int syscall_nb);
+void syscall(uint32_t syscall_nb);
 void *mem_set(void *dest, register int val, register size_t len);
 void *mem_alloc(unsigned int size);
 char **argparse(char *str);

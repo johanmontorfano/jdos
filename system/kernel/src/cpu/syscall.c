@@ -28,5 +28,4 @@ void init_system_calls(void)
 /// kernel mode. Hence this function is always ran in kernel mode.
 void system_call(uint32_t syscall_number)
 {
-    write("got system call", 15);
 }

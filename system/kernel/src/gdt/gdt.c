@@ -72,8 +72,8 @@ void init_gdt(void)
     set_gdt(&gdt[0], 0, 0, 0, 0);
     set_gdt(&gdt[1], 0, 0xFFFFF, 0x9A, 0xC);
     set_gdt(&gdt[2], 0, 0xFFFFF, 0x92, 0xC);
-    set_gdt(&gdt[3], 0, 0xFFFFF, 0xFA, 0xC);
-    set_gdt(&gdt[4], 0, 0xFFFFF, 0xF2, 0xC);
+    set_gdt(&gdt[3], 0, 0xFFFFF, 0xFA, 0xCF);
+    set_gdt(&gdt[4], 0, 0xFFFFF, 0xF2, 0xCF);
     write_tss(&gdt[5]);
     gdt_desc.size = sizeof(gdt) - 1;
     gdt_desc.offset = (uint32_t)&gdt;
