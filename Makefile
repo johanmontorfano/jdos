@@ -29,8 +29,7 @@ re: fclean all
 dependencies:
 	make -C lib/libc
 	make -C lib/libdrivers
-	make -C system/bootloader make_32
-	make -C system/bootloader make_kern
+	make -C system/bootloader make_32_kern
 	make -C system/kernel
 
 $(KERNEL_NAME): dependencies

@@ -12,9 +12,9 @@ KERNEL_OFFSET equ 0x1000        ; Offset used by the linker
     call switch_to_pm
     jmp $                       ; Unreachable
 
-%include "src/disk.asm"
-%include "src/print.asm"
-%include "src/print_hex.asm"
+%include "src/16/disk.asm"
+%include "src/16/print.asm"
+%include "src/16/print_hex.asm"
 %include "src/32/gdt_32.asm"
 %include "src/32/print_32.asm"
 %include "src/32/switch_32.asm"
