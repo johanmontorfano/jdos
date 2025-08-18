@@ -2,8 +2,8 @@
 ///     https://wiki.osdev.org/ATA_PIO_Mode#IDENTIFY_command
 
 #include "libc.h"
-#include "drivlib.h"
-#include "drivlib/ata.h"
+#include "devices/raw.h"
+#include "devices/ata.h"
 
 static uint8_t get_udma_active_mode(uint16_t udma_word)
 {

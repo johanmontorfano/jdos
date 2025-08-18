@@ -1,7 +1,7 @@
 #include "libc.h"
 #include "ctypes.h"
-#include "drivlib.h"
-#include "drivlib/ata.h"
+#include "devices/raw.h"
+#include "devices/ata.h"
 
 void pio_lba_write_sector(uint32_t lba_addr, uint16_t *buffer, int len)
 {

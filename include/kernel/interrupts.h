@@ -2,7 +2,7 @@
     #define KERNEL_INTERRUPTS
     #define SEG_SELECTORS 0x08
     #define IDT_ENTRIES 256
-    #include "drivlib.h"
+    #include "devices/raw.h"
 
 extern void isr0();
 extern void isr1();

@@ -1,5 +1,5 @@
-#include "drivlib.h"
-#include "drivlib/ata.h"
+#include "devices/raw.h"
+#include "devices/ata.h"
 #include "kernel/interrupts.h"
 #include "kernel/cpu.h"
 #include "kernel/gdt.h"

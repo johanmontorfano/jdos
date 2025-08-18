@@ -1,5 +1,5 @@
-#include "drivlib/ata.h"
-#include "drivlib.h"
+#include "devices/ata.h"
+#include "devices/raw.h"
 #include "ctypes.h"
 
 /// Waits for the BSY bit to be cleared.

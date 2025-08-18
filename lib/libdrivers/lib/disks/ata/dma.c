@@ -1,5 +1,5 @@
-#include "drivlib.h"
-#include "drivlib/ata.h"
+#include "devices/raw.h"
+#include "devices/ata.h"
 #include "libc.h"
 
 static char *dmawarn = "Some DMA mechanisms are implemented, such as PRD, \
