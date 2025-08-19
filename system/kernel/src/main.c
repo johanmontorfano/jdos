@@ -1,5 +1,6 @@
 #include "devices/raw.h"
 #include "devices/ata.h"
+#include "devices/vga.h"
 #include "kernel/interrupts.h"
 #include "kernel/cpu.h"
 #include "kernel/gdt.h"
@@ -15,6 +16,8 @@ int main()
     irq_init(50);
     init_system_calls();
     init_dma_prdt();
-    print("Welcome to Johan's Dumb Operating System :)\n");
-    enter_user_mode();
+    init_vga();
+    fill_rect(0, 0, VGA_MAX_WIDTH - 1, VGA_MAX_HEIGHT - 1, BLUE);
+    draw_string(30, 30, WHITE, "JDOS V0");
+    draw_string(30, 40, WHITE, "WELCOME!");
 }
