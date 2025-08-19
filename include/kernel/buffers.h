@@ -9,5 +9,6 @@ void stdin_write(char c);
 void stdin_flush(void);
 void stdin_init(void);
 char *getinput();
+char *getinputsilent();
 
 #endif
