@@ -73,15 +73,15 @@ static const char ascii_french_legacy_azerty[] = {
     '?',                                            // NUM LOCK
     '?',                                            // SCROLL
     '?',                                            // HOME
-    '?',                                            // UP
+    123,                                            // UP
     '?',                                            // PRIOR
     '-',
-    '?',                                            // LEFT
+    125,                                            // LEFT
     '?',                                            // CLEAR
-    '?',                                            // RIGHT
+    126,                                            // RIGHT
     '+',                                            // ADD
     '?',                                            // END
-    '?',                                            // DOWN
+    124,                                            // DOWN
     '?',                                            // NEXT
     '?',                                            // INSERT
     127,                                            // DEL
