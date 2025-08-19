@@ -24,7 +24,7 @@ load_kernel:
     mov bx, MSG_LOAD_KERN
     call print
     mov bx, KERNEL_OFFSET
-    mov dh, 44                  ; Kernel size
+    mov dh, 50                  ; Kernel size
     mov dl, [BOOT_DRIVE]
     call disk_load
     ret
