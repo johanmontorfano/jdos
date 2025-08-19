@@ -1,138 +1,123 @@
-#ifndef KERNEL_DRIV_ATA
-    #define KERNEL_DRIV_ATA
-    // We consider that data returned/expected by all those registers is
-    // of type uint8_t.
-    // Rows with a '*' means LBA28 = uint8_t, LBA48 = uint16_t
-    // Rows with a '^' means LBA28/LBA48 = uint16_t
-    #define ATA_PRIMARY_0 0x1F0                 // R/W PIO bytes            ^
-    #define ATA_PRIMARY_1 0x1F1                 // R: Error                 *
-                                                // W: Features              *
-    #define ATA_PRIMARY_2 0x1F2                 // SectorCount              *
-    #define ATA_PRIMARY_3 0x1F3                 // LBAlo (SectorNb)         *
-    #define ATA_PRIMARY_4 0x1F4                 // LBAmid (CylinderLow)     *
-    #define ATA_PRIMARY_5 0x1F5                 // LBAhi (CylinderHi)       *
-    /// The Drive/Head Register (and the Drive/Head Selected Register), are
-    /// using uint8_t formatted as:
-    /// bits 0-3:   CHS(bits 0-3 of the head) LBA(bits 24-27 of the blk nb)
-    /// bit    4:   Drive number
-    /// bit    5:   Always set to 1
-    /// bit    6:   0 = CHS addressing, 1 = LBA addressing
-    /// bit    7:   Always set to 1
-    #define ATA_PRIMARY_6 0x1F6                 // Drive/Head Register
-    /// The Status Register (and the Alternate Status Register), are using
-    /// uint8_t formatted as:
-    /// bit    0:   Error, new command clears it
-    /// bit    1:   Index, always set to 0
-    /// bit    2:   Corrected Data, always set to 0
-    /// bit    3:   DRQ, 1 = Drive is ready/has PIO data to transfer
-    /// bit    4:   Overlapped Mode Service Req (?????)
-    /// bit    5:   Drive Fault Error
-    /// bit    6:   0 = Drive spun down, after an error
-    /// bit    7:   If set, drive is busy
-    #define ATA_PRIMARY_7 0x1F7                 // R: Status
-                                                // W: Command
-    /// The Device Control Register (W) is using uint8_t formatted as:
-    /// bit    0:   Always set to 0
-    /// bit    1:   If set, device will not send interrupts anymore
-    /// bit    2:   If set, ATA drives undergoes a software reset
-    /// bits 3-6:   Reserved
-    /// bit    7:   If set, will allow to read the high order byte of the last
-    ///             LBA48 address.
-    #define ATA_PRIMARY_CONTROL_1 0x3F6         // R: Alternate Status
-                                                //    Does not affect int
-                                                // W: Device Control
-    /// Drive Address Register
-    /// bit    0:   Cleared when drive 0 selected
-    /// bit    1:   Cleared when drive 1 selected
-    /// bits 2-5:   ????
-    /// bit    6:   Write gate, low voltage when writing
-    /// bit    7:   Reserved for compatibility with floppy disks
-    #define ATA_PRIMARY_CONTROL_2 0x3F7         // R: Drive Address
-    #define ATA_PRIMARY_IRQ 14
+// https://wiki.osdev.org/PCI_IDE_Controller
 
-    #define ATA_SECONDARY_0 0x170
-    #define ATA_SECONDARY_1 0x171
-    #define ATA_SECONDARY_2 0x172
-    #define ATA_SECONDARY_3 0x173
-    #define ATA_SECONDARY_4 0x174
-    #define ATA_SECONDARY_5 0x175
-    #define ATA_SECONDARY_6 0x176
-    #define ATA_SECONDARY_7 0x177
-    #define ATA_SECONDARY_CONTROL_1 0x376
-    #define ATA_SECONDARY_CONTROL_2 0x377
-    #define ATA_SECONDARY_IRQ 15
-
-    // ATA Error register kinds
-    #define ATA_ERR_0 (1 << 1)                  // Address mark not found
-    #define ATA_ERR_1 (1 << 2)                  // Track zero not found
-    #define ATA_ERR_2 (1 << 3)                  // Aborted command
-    #define ATA_ERR_3 (1 << 4)                  // Media change request
-    #define ATA_ERR_4 (1 << 5)                  // ID not found
-    #define ATA_ERR_5 (1 << 6)                  // Media changed
-    #define ATA_ERR_6 (1 << 7)                  // Uncorrectable data error
-    #define ATA_ERR_7 (1 << 8)                  // Bad block detected
-
-    #define ATA_FLUSH 0xE7
-    // The system currently only support LBA28 operations, meaning that ports
-    // for LBA48 operations are not listed here yet.
-    #define ATA_PIO_READ 0x20
-    #define ATA_PIO_WRITE 0x30
-    #define ATA_DMA_READ 0xC8
-    #define ATA_DMA_WRITE 0xCA
-    #define ATA_DMA_BUS_MASTER_COMMAND 0xC000
-    #define ATA_DMA_BUS_MASTER_STATUS 0xC002
-    #define ATA_DMA_BUS_MASTER_PRDT 0xC004
-    #define ATA_PRD_TABLE_LENGTH 1
-
+#ifndef IDE_H
+	#define IDE_H
+	#define MAXIMUM_CHANNELS    2
+	#define MAXIMUM_IDE_DEVICES    5
+    // ATA register ports for read/write
+	#define ATA_REG_DATA         0x00
+	#define ATA_REG_ERROR        0x01
+	#define ATA_REG_FEATURES     0x01
+	#define ATA_REG_SECCOUNT0    0x02
+	#define ATA_REG_LBA0         0x03
+	#define ATA_REG_LBA1         0x04
+	#define ATA_REG_LBA2         0x05
+	#define ATA_REG_HDDEVSEL     0x06
+	#define ATA_REG_COMMAND      0x07
+	#define ATA_REG_STATUS       0x07
+	#define ATA_REG_SECCOUNT1    0x08
+	#define ATA_REG_LBA3         0x09
+	#define ATA_REG_LBA4         0x0A
+	#define ATA_REG_LBA5         0x0B
+	#define ATA_REG_CONTROL      0x0C
+	#define ATA_REG_ALTSTATUS    0x0C
+	#define ATA_REG_DEVADDRESS   0x0D
+    // ATA drive status
+	#define ATA_SR_BSY     0x80    // Busy
+	#define ATA_SR_DRDY    0x40    // Drive ready
+	#define ATA_SR_DF      0x20    // Drive write fault
+	#define ATA_SR_DSC     0x10    // Drive seek complete
+	#define ATA_SR_DRQ     0x08    // Data request ready
+	#define ATA_SR_CORR    0x04    // Corrected data
+	#define ATA_SR_IDX     0x02    // Index
+	#define ATA_SR_ERR     0x01    // Error
+    // ATA drive error status
+	#define ATA_ER_BBK      0x80    // Bad block
+	#define ATA_ER_UNC      0x40    // Uncorrectable data
+	#define ATA_ER_MC       0x20    // Media changed
+	#define ATA_ER_IDNF     0x10    // ID mark not found
+	#define ATA_ER_MCR      0x08    // Media change request
+	#define ATA_ER_ABRT     0x04    // Command aborted
+	#define ATA_ER_TK0NF    0x02    // Track 0 not found
+	#define ATA_ER_AMNF     0x01    // No address mark
+    // Channels
+	#define ATA_PRIMARY      0x00
+	#define ATA_SECONDARY    0x01
+    // IDE types
+	#define IDE_ATA      0x00
+	#define IDE_ATAPI    0x01
+    // Command types
+	#define ATA_CMD_READ_PIO          0x20
+	#define ATA_CMD_READ_PIO_EXT      0x24
+	#define ATA_CMD_READ_DMA          0xC8
+	#define ATA_CMD_READ_DMA_EXT      0x25
+	#define ATA_CMD_WRITE_PIO         0x30
+	#define ATA_CMD_WRITE_PIO_EXT     0x34
+	#define ATA_CMD_WRITE_DMA         0xCA
+	#define ATA_CMD_WRITE_DMA_EXT     0x35
+	#define ATA_CMD_CACHE_FLUSH       0xE7
+	#define ATA_CMD_CACHE_FLUSH_EXT   0xEA
+	#define ATA_CMD_PACKET            0xA0
+	#define ATA_CMD_IDENTIFY_PACKET   0xA1
+	#define ATA_CMD_IDENTIFY          0xEC
+    // Identify types
+	#define ATA_IDENT_DEVICETYPE   0
+	#define ATA_IDENT_CYLINDERS    2
+	#define ATA_IDENT_HEADS        6
+	#define ATA_IDENT_SECTORS      12
+	#define ATA_IDENT_SERIAL       20
+	#define ATA_IDENT_MODEL        54
+	#define ATA_IDENT_CAPABILITIES 98
+	#define ATA_IDENT_FIELDVALID   106
+	#define ATA_IDENT_MAX_LBA      120
+	#define ATA_IDENT_COMMANDSETS  164
+	#define ATA_IDENT_MAX_LBA_EXT  200
+	#define ATA_SECTOR_SIZE    512
+    // Directions
+	#define ATA_READ     0x00
+	#define ATA_WRITE    0x01
+    // LBA(Linear Block Address) modes
+	#define LBA_MODE_48   0x02
+	#define LBA_MODE_28   0x01
+	#define LBA_MODE_CHS  0x00
     #include "ctypes.h"
 
-/// fields starting with `d_` are deprecated.
-typedef struct s_disk_info {
-    uint8_t is_master;
-    uint8_t is_found;
-    uint8_t is_ata;
-    uint8_t support_lba28;
-    uint32_t lba28_addr;                            // LBA28 addr count
-    uint8_t support_lba48;
-    uint64_t lba48_addr;                            // LBA48 addr count
-    uint8_t support_udma1;                          // UDMA Mode 1 ...
-    uint8_t support_udma2;
-    uint8_t support_udma3;
-    uint8_t support_udma4;
-    uint8_t support_udma5;
-    uint8_t support_udma6;
-    uint8_t support_udma7;
-    uint8_t support_udma8;
-    uint8_t active_udma_mode;
-    uint8_t udma_up_2_ok;                           // UDMA >2 can be used
+typedef struct {
+    uint16_t base;  // i/o base port
+    uint16_t control;  // control port
+    uint16_t bm_ide; // bus-master ide port
+    uint16_t no_intr; // no interrupt port
+} IDE_CHANNELS;
 
-    // Values below may get deleted soon.
-    unsigned short config_bit;                      // bit      0
-    unsigned short d_cylinders[2];                  // bits     1-2
-    unsigned short d_heads;                         // bit      3
-    unsigned short d_sectors_per_track;             // bit      6
-    unsigned short serial_number[10];               // bits     10-19
-    unsigned short model_number[19];                // bits     27-46
-} t_disk_info;
+typedef struct {
+    uint8_t reserved; // 0 or 1 if drive exists or not
+    uint8_t channel; // primary(0) or secondary(1)
+    uint8_t drive; // master(0) or slave(1)
+    uint16_t type; // drive type- ATA(0), ATAPI(1),
+    uint16_t signature; // drive signature
+    uint16_t features; // drive features
+    uint32_t command_sets; // supported command sets
+    uint32_t size; // drive size in sectors
+    unsigned char model[41]; // drive name
+} IDE_DEVICE;
 
-/// Physical Region Descriptor Table declaration for DMA reading
-typedef struct s_prdt {
-    uint32_t base;
-    uint16_t size;
-    uint16_t flags;
-} __attribute__((packed)) prdt_t;
-
-void init_dma_prdt(void);
-void ata_bsy_wait(uint16_t port);
-void ata_drq_wait(uint16_t port);
-void ata_drq_err_wait(uint16_t port);
-void ata_bmr_wait(uint16_t port);
-void pio_lba_write_sector(uint32_t lba_addr, uint16_t *buffer, int len);
-void dma_lba_write_sector(uint32_t lba_addr, uint32_t *buffer, uint32_t len);
-/// Used to copy some short bytes read from the disk to a target with a
-/// offset.
-t_disk_info *get_disk_info(void);
-uint16_t *pio_lba_read_sector(uint32_t lba_addr);
-uint32_t *dma_lba_read_sector(uint32_t lba_addr);
+int ide_read_sectors(uint8_t drive, uint8_t num_sectors, uint32_t lba, uint32_t buffer);
+int ide_write_sectors(uint8_t drive, uint8_t num_sectors, uint32_t lba, uint32_t buffer);
+int ata_get_drive_by_model(const char *model);
+// prim_channel_base_addr: Primary channel base address(0x1F0-0x1F7)
+// prim_channel_control_base_addr: Primary channel control base address(0x3F6)
+// sec_channel_base_addr: Secondary channel base address(0x170-0x177)
+// sec_channel_control_addr: Secondary channel control base address(0x376)
+// bus_master_addr: Bus master address(pass 0 for now)
+void init_ide(
+    uint32_t prim_channel_base_addr,
+    uint32_t prim_channel_control_base_addr,
+    uint32_t sec_channel_base_addr,
+    uint32_t sec_channel_control_addr,
+    uint32_t bus_master_addr
+);
+void ide_wait_irq();
+void ide_irq();
+void init_ata();
 
 #endif

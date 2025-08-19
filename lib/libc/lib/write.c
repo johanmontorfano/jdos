@@ -12,6 +12,11 @@ void write(char *str, int n)
     }
 }
 
+void write_char(char c)
+{
+    write(&c, 1);
+}
+
 void write_int(int nb)
 {
     char c;

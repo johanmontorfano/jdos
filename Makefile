@@ -45,7 +45,10 @@ $(DISK_NAME):
 	qemu-img create -f raw $(DISK_NAME) $(DISK_SIZE)
 
 run:
-	qemu-system-x86_64 -fda $(IMAGE_NAME) -hda $(DISK_NAME)
+	qemu-system-x86_64 \
+		-fda $(IMAGE_NAME) \
+		-drive file=$(DISK_NAME),if=none,id=disk0 \
+		-device ide-hd,drive=disk0,model="MyCustomModel"
 
 debug: $(KERNEL_NAME).elf clean
 	qemu-system-x86_64 -s -fda $(IMAGE_NAME) \

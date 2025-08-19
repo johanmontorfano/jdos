@@ -7,7 +7,6 @@ void init_system_calls(void)
 {
     write_msr(0x174, 0x08);
     write_msr(0x175, 0x900000);
-    write_msr(0x176, (uint32_t)syscall_entry);
 }
 
 /// System calls are used by applications to communicate with the kernel, hence

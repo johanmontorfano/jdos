@@ -82,6 +82,7 @@ global isr28
 global isr29
 global isr30
 global isr31
+global isr128
 
 ; IRQ globals
 global irq0
@@ -314,6 +315,13 @@ isr30:
 
 ; 31: Reserved
 isr31:
+    cli
+    push byte 0
+    push byte 31
+    jmp isr_common_stub
+
+; 31: Reserved
+isr128:
     cli
     push byte 0
     push byte 31

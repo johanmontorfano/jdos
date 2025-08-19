@@ -1,23 +1,47 @@
 #include "devices/raw.h"
-#include "devices/ata.h"
 #include "devices/vga.h"
-#include "kernel/interrupts.h"
-#include "kernel/cpu.h"
+#include "devices/ata.h"
+#include "kernel/idt.h"
 #include "kernel/gdt.h"
+#include "libc.h"
 
 int main()
 {
-    char *line;
-
     clear_screen();
     init_gdt();
-    set_kernel_stack(0x9FFFF);
-    isr_init();
-    irq_init(50);
-    init_system_calls();
-    init_dma_prdt();
-    init_vga();
-    fill_rect(0, 0, VGA_MAX_WIDTH - 1, VGA_MAX_HEIGHT - 1, BLUE);
-    draw_string(30, 30, WHITE, "JDOS V0");
-    draw_string(30, 40, WHITE, "WELCOME!");
+    init_idt();
+    init_ata();
+
+    const int DRIVE = 0;
+    const uint32_t LBA = 0;
+    const uint8_t NO_OF_SECTORS = 1;
+    char buf[ATA_SECTOR_SIZE] = {0};
+
+    struct example {
+        int id;
+        char name[32];
+    };
+
+    struct example e;
+    e.id = 10012;
+    s_strcpy(e.name, "Iron Man");
+
+    // write message to drive
+    s_strcpy(buf, "Hello World");
+    ide_write_sectors(DRIVE, NO_OF_SECTORS, LBA, (uint32_t)buf);
+
+    mem_set(buf, 0, sizeof(buf));
+    mem_copy(buf, &e, sizeof(e));
+    ide_write_sectors(DRIVE, NO_OF_SECTORS, LBA + 1, (uint32_t)buf);
+    p_printf("data written\n");
+
+    // read message from drive
+    mem_set(buf, 0, sizeof(buf));
+    ide_read_sectors(DRIVE, NO_OF_SECTORS, LBA, (uint32_t)buf);
+    p_printf("read data: %s\n", buf);
+
+    mem_set(buf, 0, sizeof(buf));
+    ide_read_sectors(DRIVE, NO_OF_SECTORS, LBA + 1, (uint32_t)buf);
+    mem_copy(&e, buf, sizeof(e));
+    p_printf("id: %d, name: %s\n", e.id, e.name);
 }

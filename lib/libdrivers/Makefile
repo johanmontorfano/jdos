@@ -1,7 +1,7 @@
 SRC			=	$(wildcard lib/*.c) \
 				$(wildcard lib/keyboard/*.c) \
 				$(wildcard lib/vga/*.c) \
-				$(wildcard lib/disks/ata/*.c)
+				$(wildcard lib/disks/*.c)
 
 DEPS		=	-l:../../lib/libc/libc.a
 
