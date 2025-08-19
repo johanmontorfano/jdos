@@ -51,10 +51,10 @@ Every buffer can be flushed by a program/the kernel.
             - [ ] Layout support
         - [x] VGA screen
         - [ ] 2D screen
-        - [-] Disk I/O
+        - [x] Disk I/O
             - [x] ATA Identify
             - [x] ATA PIO 24 bits R/W
-            - [ ] ATA PIO 48 bits R/W
+            - [x] ATA PIO 48 bits R/W
             - [ ] DMA ATA R/W
     - [-] Features
         - [x] Memory allocation
@@ -63,11 +63,11 @@ Every buffer can be flushed by a program/the kernel.
         - [x] Kernel mode
         - [ ] File system
         - [ ] APM (Advanced Power Mgmt) support
-    - [-] Mini shell
+    - [x] Mini shell
 - [ ] File system
     - [ ] Head table
     - [ ] Files
     - [ ] Folders
 - [ ] 2D screen
     - [ ] Adaptative resolution
-    - [ ] Graphics drawing
+    - [x] Graphics drawing
