@@ -19,6 +19,8 @@ static void keycback(t_cpu_reg regs)
         kb_shift_pressed = !kb_shift_pressed;
     if (scancode == KB_BACKSPACE && stdin_size > 0) {
         stdin_size -= 1;
+        if (ECHO_KEYBOARD)
+            remove_last_char();
     } else if (scancode == KB_ENTER) {
         stdin_write('\n');
         if (ECHO_KEYBOARD)
