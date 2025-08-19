@@ -15,6 +15,19 @@ void stdin_write(char c)
     stdin_size++;
 }
 
+char *getinput()
+{
+    while (stdin[stdin_size - 1] != '\n');
+
+    char *out = mem_alloc(stdin_size);
+
+    mem_copy(out, stdin, stdin_size);
+    // we replace the \n with nothing
+    out[stdin_size - 1] = 0;
+    stdin_flush();
+    return out; 
+}
+
 /// Stdin is not really flushed since data remains, the pointer is just reset.
 void stdin_flush(void)
 {
