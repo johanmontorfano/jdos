@@ -1,4 +1,4 @@
-LINKER				=	ld
+LINKER				=	i686-elf-ld
 
 LD_FLAGS			=	--allow-multiple-definition -m elf_i386 -T linker.ld
 
@@ -33,10 +33,12 @@ dependencies:
 	make -C system/kernel
 
 $(KERNEL_NAME): dependencies
-	ld $(LD_FLAGS) -o $@ $(KERNEL_SRC) --oformat binary
+	$(LINKER) $(LD_FLAGS) -o $@ $(KERNEL_SRC) \
+		--start-group lib/libdrivers/libdrivers.a lib/libc/libc.a --end-group \
+		--oformat binary
 
 $(KERNEL_NAME).elf: dependencies
-	ld $(LD_FLAGS) -o $@ $(KERNEL_SRC)
+	$(LINKER) $(LD_FLAGS) -o $@ $(KERNEL_SRC)
 
 $(IMAGE_NAME): $(IMAGE_SRC)
 	cat $^ > $@
@@ -58,6 +60,10 @@ debug: $(KERNEL_NAME).elf clean
 
 fclean: clean
 	rm -f $(IMAGE_NAME) $(IMAGE_NAME).elf
+	make -C lib/libc fclean
+	make -C lib/libdrivers fclean
+	make -C system/bootloader) --oformat binary fclean
+	make -C system/kernel fclean
 
 clean:
 	rm -f $(IMAGE_SRC) $(KERNEL_NAME) $(KERNEL_SRC)
